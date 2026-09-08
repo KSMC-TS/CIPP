@@ -27,6 +27,10 @@ jobs:
           # and the build fails at platform detection. Remove or bump this pin
           # once Oryx supports the requested version.
           NODE_VERSION: "22.22.0"
+          # Yarn 1 hard-fails on the engines mismatch above (22.22.0 vs
+          # ^22.22.2) instead of warning. This tells yarn to skip the engines
+          # check. Remove together with the NODE_VERSION pin.
+          YARN_IGNORE_ENGINES: "true"
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_AGREEABLE_BEACH_053BB1E0F }} # change this to your repository secret name
           repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
