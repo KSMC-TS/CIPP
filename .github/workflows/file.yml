@@ -15,12 +15,18 @@ jobs:
     runs-on: ubuntu-latest
     name: Build and Deploy Job
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           submodules: true
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
+        env:
+          # Pin the Node version Oryx uses. Upstream's package.json asks for
+          # ^22.22.2, which Oryx doesn't ship yet (max 22.22.0 in the 22.x line)
+          # and the build fails at platform detection. Remove or bump this pin
+          # once Oryx supports the requested version.
+          NODE_VERSION: "22.22.0"
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_AGREEABLE_BEACH_053BB1E0F }} # change this to your repository secret name
           repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
@@ -44,4 +50,3 @@ jobs:
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_AGREEABLE_BEACH_053BB1E0F }} # change this to your repository secret name
           action: "close"
-
